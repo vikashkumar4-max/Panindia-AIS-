@@ -1,60 +1,90 @@
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwCc3ZFIb2Tkp4ZA971WpOHWBgYz3NiWhK4bLYxk99_a4nK9XX9mYSuVRSnPlUs-tjDeg/exec";
 
-let isFetching = false; // Duplicate requests rokne ke liye
+let isFetching = false;
+let globalSheetData = []; // Pure dashboard ke filter ke liye global memory
 
-async function fetchLiveData() {
+// JSONP Fetch Method (CORS Proof)
+function fetchLiveData() {
     if (isFetching) return;
     isFetching = true;
 
-    try {
-        // Cache Busting parameter (?t=timestamp) taaki Browser purana data na dikhaye
-        const response = await fetch(`${SCRIPT_URL}?t=${new Date().getTime()}`, {
-            method: 'GET',
-            redirect: 'follow'
-        });
+    // Purani script file ko remove karna taaki DOM clean rahe
+    const oldScript = document.getElementById('jsonp-script');
+    if (oldScript) oldScript.remove();
 
-        if (!response.ok) throw new Error("Network issue");
-
-        const data = await response.json();
-
-        if (Array.isArray(data)) {
-            renderTable(data);
-            document.getElementById('status-indicator').innerText = "🟢 Live Connected";
-            document.getElementById('status-indicator').style.color = "green";
-        }
-    } catch (error) {
-        console.warn("Live update retry error:", error);
-        document.getElementById('status-indicator').innerText = "🟡 Reconnecting...";
-        document.getElementById('status-indicator').style.color = "orange";
-    } finally {
+    // Dynamically script insert karke data fetch karna
+    const script = document.createElement('script');
+    script.id = 'jsonp-script';
+    script.src = `${SCRIPT_URL}?callback=handleServerResponse&t=${new Date().getTime()}`;
+    
+    script.onerror = function() {
         isFetching = false;
+        updateStatus("🟡 Reconnecting...", "orange");
+    };
+
+    document.body.appendChild(script);
+}
+
+// Google Sheet se Data milne par ye automatically call hoga
+function handleServerResponse(data) {
+    isFetching = false;
+    
+    if (Array.isArray(data) && data.length > 0) {
+        globalSheetData = data;
+        
+        // Check agar aapke dashboard par applyFilters() hai toh use chalao, nahi toh direct render
+        if (typeof applyFilters === "function") {
+            applyFilters(); 
+        } else {
+            renderTable(globalSheetData);
+        }
+
+        updateStatus("🟢 Live Connected", "#05cd99");
+    } else {
+        renderTable([]);
+        updateStatus("🟢 Connected (No Data)", "#05cd99");
+    }
+}
+
+// Status message updater with safety check
+function updateStatus(text, color) {
+    const statusElem = document.getElementById('status-indicator');
+    if (statusElem) {
+        statusElem.innerText = text;
+        statusElem.style.color = color;
     }
 }
 
 function renderTable(data) {
     const tbody = document.getElementById('tableBody');
-    if (data.length === 0) {
-        tbody.innerHTML = "<tr><td colspan='4'>Koi Data Nahi Hai</td></tr>";
+    if (!tbody) return;
+
+    if (!data || data.length === 0) {
+        tbody.innerHTML = "<tr><td colspan='5' style='text-align:center;'>Koi Data Nahi Hai</td></tr>";
         return;
     }
 
     let rowsHtml = "";
-    data.forEach(item => {
+    data.forEach((item, index) => {
         rowsHtml += `<tr>
-            <td>${item.name || ''}</td>
-            <td>${item.email || ''}</td>
-            <td>${item.message || ''}</td>
-            <td>${item.date || item.timestamp || ''}</td>
+            <td><strong>${index + 1}</strong></td>
+            <td>${item.name || item['Vehicle Reg No'] || 'N/A'}</td>
+            <td>${item.email || item.Owner || 'N/A'}</td>
+            <td>${item.message || item.Remarks || 'N/A'}</td>
+            <td>${item.date || item.timestamp || 'N/A'}</td>
         </tr>`;
     });
 
     tbody.innerHTML = rowsHtml;
-    document.getElementById('loading').style.display = "none";
-    document.getElementById('dataTable').style.display = "table";
+
+    // Loader and Table display safety checks
+    const loader = document.getElementById('loading') || document.getElementById('loader');
+    const table = document.getElementById('dataTable') || document.getElementById('tableWrapper');
+    
+    if (loader) loader.style.display = "none";
+    if (table) table.style.display = "table";
 }
 
-// 1. Page khulte hi pehli baar data layega
+// Initial Fetch & Auto 10-Second Refresh Loop
 fetchLiveData();
-
-// 2. Har 10 Seconds (10000ms) me Bina Rukavat Auto Live Update Hoga
 setInterval(fetchLiveData, 10000);
