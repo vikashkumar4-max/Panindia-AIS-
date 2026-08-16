@@ -51,7 +51,7 @@
             margin: 0 auto;
         }
 
-        /* 1. Indian Theme Header (As per image layout) */
+        /* Indian Theme Header */
         .top-bar {
             background: #ffffff;
             border-radius: 12px;
@@ -72,7 +72,6 @@
             gap: 16px;
         }
 
-        /* Indian Emblem / Shield Style Logo */
         .logo-container {
             width: 50px;
             height: 50px;
@@ -181,7 +180,7 @@
         .card-pending { background: var(--card-pending-bg); }
         .card-action { background: var(--card-action-bg); }
 
-        /* Filter Controls */
+        /* Filter Panel */
         .main-content {
             background: #ffffff;
             border: 1px solid var(--border-color);
@@ -227,7 +226,7 @@
             outline: none;
         }
 
-        /* 4. Updated Table Structure */
+        /* Table Design */
         .table-responsive {
             overflow-x: auto;
         }
@@ -267,10 +266,11 @@
             font-weight: 800;
             text-decoration: underline;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
+            letter-spacing: 0.5px;
         }
 
-        /* Remarks Status Colors */
+        /* Status Badges */
         .badge-remark {
             display: inline-block;
             padding: 6px 12px;
@@ -304,7 +304,7 @@
             font-weight: 700;
         }
 
-        /* Modal Details Popup */
+        /* Modal Details */
         .modal {
             display: none;
             position: fixed;
@@ -320,7 +320,7 @@
             background: #ffffff;
             border-radius: 12px;
             padding: 28px;
-            max-width: 520px;
+            max-width: 540px;
             width: 90%;
             max-height: 85vh;
             overflow-y: auto;
@@ -355,17 +355,16 @@
         }
 
         .detail-label { font-weight: 600; color: var(--text-muted); font-size: 12px; }
-        .detail-value { color: var(--text-dark); font-weight: 700; font-size: 13px; }
+        .detail-value { color: var(--text-dark); font-weight: 700; font-size: 13px; word-break: break-all; }
     </style>
 </head>
 <body>
 
     <div class="dashboard-container">
-        <!-- 1. Header with Emblem Logo -->
+        <!-- Indian Theme Header -->
         <div class="top-bar">
             <div class="top-bar-left">
                 <div class="logo-container">
-                    <!-- Indian Emblem / National Shield SVG Logo -->
                     <svg class="emblem-svg" viewBox="0 0 24 24" fill="none">
                         <path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6l-8-4z" fill="#0f172a"/>
                         <circle cx="12" cy="11" r="3" fill="#ff9933"/>
@@ -431,7 +430,6 @@
                 <table id="dataTable" style="display: none;">
                     <thead>
                         <tr>
-                            <!-- 4. Requested Column Headers -->
                             <th>SR. NO.</th>
                             <th>VEHICLE NUMBER</th>
                             <th>REMARK</th>
@@ -459,33 +457,66 @@
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbwpn2sSMdXpn6SmixqeCyHEcEA3wIBqvktPK1wA0Lf7ITljadaCanI7zsU6f8GrXrPuVA/exec"; 
 
-        // 2. Flexible Automatic Field Fetcher Keys
-        const FIELD_KEYS = {
-            VEHICLE: ['vehicle', 'veh', 'reg'],
-            REMARK: ['remark', 'status'],
-            DATE: ['date', 'dt'],
-            OWNER: ['owner', 'permit', 'holder', 'name'],
-            MOBILE: ['mobile', 'phone', 'contact', 'num'],
-            TIMESTAMP: ['timestamp', 'time', 'created'],
-            STATE: ['portal', 'state']
-        };
-
         let masterData = [];
         let activeCardFilter = 'ALL';
         let isFirstLoad = true;
 
-        // Smart Header Matching Function (Detects variations automatically)
-        function getSmartValue(rowObj, keyTypes) {
+        // Smart Extractor Functions
+        function getVehicleNumber(rowObj) {
+            if (!rowObj) return 'N/A';
+            const vehicleRegEx = /\b[A-Z]{2}[0-9]{1,2}[A-Z]{0,3}[0-9]{4}\b/i; // Standard Indian Vehicle Number Pattern
+
+            // 1. First priority: Check exact keys matching 'vehicle' or 'reg'
+            for (let k of Object.keys(rowObj)) {
+                const kLower = k.toLowerCase();
+                if ((kLower.includes('vehicle') || kLower.includes('reg')) && !kLower.includes('type') && !kLower.includes('category')) {
+                    const val = String(rowObj[k]).trim();
+                    if (val && !val.toLowerCase().includes('old vehicle')) return val;
+                }
+            }
+
+            // 2. Fallback: Search all values for a valid Vehicle Number pattern
+            for (let val of Object.values(rowObj)) {
+                const match = String(val).match(vehicleRegEx);
+                if (match) return match[0].toUpperCase();
+            }
+
+            return 'N/A';
+        }
+
+        function getValueByKeywords(rowObj, keywords) {
             if (!rowObj) return '';
-            const allKeys = Object.keys(rowObj);
-            
-            for (let typeKey of keyTypes) {
-                const matchedKey = allKeys.find(k => k.toLowerCase().replace(/[^a-z0-9]/g, '').includes(typeKey));
-                if (matchedKey && rowObj[matchedKey] !== undefined && rowObj[matchedKey] !== null) {
-                    return rowObj[matchedKey];
+            const keys = Object.keys(rowObj);
+
+            for (let keyword of keywords) {
+                const match = keys.find(k => k.toLowerCase().replace(/[^a-z0-9]/g, '').includes(keyword));
+                if (match && rowObj[match] !== undefined && rowObj[match] !== null && String(rowObj[match]).trim() !== '') {
+                    return String(rowObj[match]).trim();
                 }
             }
             return '';
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr || dateStr === '-') return '-';
+            try {
+                const d = new Date(dateStr);
+                if (isNaN(d.getTime())) return dateStr;
+                return d.toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            } catch(e) {
+                return dateStr;
+            }
+        }
+
+        function formatTimestamp(timeStr) {
+            if (!timeStr || timeStr === '-') return '-';
+            try {
+                const d = new Date(timeStr);
+                if (isNaN(d.getTime())) return timeStr;
+                return d.toLocaleString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true });
+            } catch(e) {
+                return timeStr;
+            }
         }
 
         function loadData() {
@@ -530,16 +561,16 @@
             const states = new Set();
 
             masterData.forEach(item => {
-                const remVal = getSmartValue(item, FIELD_KEYS.REMARK);
-                const vehVal = getSmartValue(item, FIELD_KEYS.VEHICLE);
-                const stateVal = getSmartValue(item, FIELD_KEYS.STATE);
+                const remVal = getValueByKeywords(item, ['remark', 'status']);
+                const vehVal = getVehicleNumber(item);
+                const stateVal = getValueByKeywords(item, ['portal', 'state']);
 
-                if (remVal) remarks.add(String(remVal).trim());
+                if (remVal) remarks.add(remVal);
 
                 if (stateVal) {
-                    states.add(String(stateVal).trim());
-                } else if (vehVal) {
-                    const match = String(vehVal).trim().match(/^[A-Za-z]{2}/);
+                    states.add(stateVal);
+                } else if (vehVal && vehVal !== 'N/A') {
+                    const match = vehVal.match(/^[A-Za-z]{2}/);
                     if (match) states.add(match[0].toUpperCase());
                 }
             });
@@ -565,9 +596,9 @@
             const selectedState = document.getElementById('stateFilter').value;
 
             const baseFilteredData = masterData.filter(item => {
-                const vehVal = String(getSmartValue(item, FIELD_KEYS.VEHICLE)).trim();
-                const remVal = String(getSmartValue(item, FIELD_KEYS.REMARK)).trim();
-                const stateVal = String(getSmartValue(item, FIELD_KEYS.STATE)).trim();
+                const vehVal = getVehicleNumber(item);
+                const remVal = getValueByKeywords(item, ['remark', 'status']);
+                const stateVal = getValueByKeywords(item, ['portal', 'state']);
 
                 const matchesSearch = Object.values(item).some(val => 
                     String(val).toLowerCase().includes(searchValue)
@@ -579,7 +610,7 @@
                 if (selectedState !== 'ALL') {
                     if (stateVal) {
                         matchesState = (stateVal.toUpperCase() === selectedState.toUpperCase());
-                    } else if (vehVal) {
+                    } else if (vehVal && vehVal !== 'N/A') {
                         matchesState = vehVal.toUpperCase().startsWith(selectedState.toUpperCase());
                     }
                 }
@@ -590,7 +621,7 @@
             updateKPICounts(baseFilteredData);
 
             const finalFiltered = baseFilteredData.filter(item => {
-                const remVal = String(getSmartValue(item, FIELD_KEYS.REMARK)).trim();
+                const remVal = getValueByKeywords(item, ['remark', 'status']);
                 const statusLower = remVal.toLowerCase();
 
                 if (activeCardFilter === 'SUCCESS') {
@@ -611,7 +642,7 @@
             
             let pending = 0, action = 0, success = 0;
             data.forEach(item => {
-                const status = String(getSmartValue(item, FIELD_KEYS.REMARK)).toLowerCase();
+                const status = getValueByKeywords(item, ['remark', 'status']).toLowerCase();
                 if (status.includes('pending') || status.includes('wait')) pending++;
                 if (status.includes('action') || status.includes('need') || status.includes('rto')) action++;
                 if (status.includes('issued') || status.includes('done') || status.includes('success') || status.includes('complete')) success++;
@@ -628,12 +659,15 @@
 
             data.forEach((item, index) => {
                 const tr = document.createElement('tr');
-                const regNo = getSmartValue(item, FIELD_KEYS.VEHICLE) || 'N/A';
-                const remark = getSmartValue(item, FIELD_KEYS.REMARK) || 'N/A';
-                const date = getSmartValue(item, FIELD_KEYS.DATE) || '-';
-                const owner = getSmartValue(item, FIELD_KEYS.OWNER) || 'N/A';
-                const mobile = getSmartValue(item, FIELD_KEYS.MOBILE) || 'N/A';
-                const timestamp = getSmartValue(item, FIELD_KEYS.TIMESTAMP) || '-';
+                const regNo = getVehicleNumber(item);
+                const remark = getValueByKeywords(item, ['remark', 'status']) || 'N/A';
+                const rawDate = getValueByKeywords(item, ['date', 'dt']);
+                const owner = getValueByKeywords(item, ['owner', 'permit', 'holder', 'name']) || 'N/A';
+                const mobile = getValueByKeywords(item, ['mobile', 'phone', 'contact', 'num', 'cell']) || 'N/A';
+                const rawTimestamp = getValueByKeywords(item, ['timestamp', 'time', 'created']);
+
+                const date = formatDate(rawDate);
+                const timestamp = formatTimestamp(rawTimestamp || rawDate);
 
                 let badgeClass = 'badge-pending';
                 const statusLower = String(remark).toLowerCase();
@@ -666,8 +700,8 @@
         }
 
         function openVehicleDetail(item) {
-            const vehNo = getSmartValue(item, FIELD_KEYS.VEHICLE) || 'Vehicle Details';
-            document.getElementById('modalTitle').innerText = vehNo;
+            const vehNo = getVehicleNumber(item);
+            document.getElementById('modalTitle').innerText = vehNo !== 'N/A' ? vehNo : 'Vehicle Details';
             const body = document.getElementById('modalBody');
             body.innerHTML = '';
 
@@ -685,7 +719,6 @@
             document.getElementById('detailModal').style.display = 'none';
         }
 
-        // 3. Close Modal when clicking outside popup box
         window.onclick = function(event) {
             const modal = document.getElementById('detailModal');
             if (event.target === modal) {
