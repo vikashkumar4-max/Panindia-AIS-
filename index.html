@@ -3,138 +3,278 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Vehicle Dashboard</title>
+    <title>AAP LIVE DASHBOARD</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f4f6f9;
+            --bg-color: #eef2f6;
             --card-bg: #ffffff;
-            --text-color: #333333;
-            --primary-color: #2c3e50;
-            --accent-color: #3498db;
-            --border-color: #e0e0e0;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --dark-header: #1e293b;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
+            color: var(--text-main);
+            padding: 24px;
         }
 
-        .container {
-            max-width: 1200px;
+        .dashboard-container {
+            max-width: 1300px;
             margin: 0 auto;
         }
 
-        h1 {
-            text-align: center;
-            color: var(--primary-color);
-            margin-bottom: 20px;
-        }
-
-        .controls {
+        /* Top Header Bar */
+        .top-bar {
+            background-color: var(--dark-header);
+            color: #ffffff;
+            padding: 20px 24px;
+            border-radius: 16px;
             display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 20px;
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
-        .search-box, .filter-box {
-            flex: 1;
-            min-width: 200px;
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
-        input[type="text"], select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid var(--border-color);
-            border-radius: 5px;
-            box-sizing: border-box;
-            font-size: 14px;
+        .top-bar-left h1 {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .stat-card {
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-
-        .stat-card h3 {
-            margin: 0 0 10px 0;
-            font-size: 14px;
-            color: #666;
-        }
-
-        .stat-card .value {
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-
-        .vehicle-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 15px;
-        }
-
-        .vehicle-card {
-            background: var(--card-bg);
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            border-left: 5px solid var(--accent-color);
-        }
-
-        .vehicle-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .vehicle-card .reg-no {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: var(--primary-color);
-        }
-
-        .vehicle-card .info {
+        .top-bar-left p {
             font-size: 13px;
-            color: #555;
-            margin-bottom: 5px;
+            color: #94a3b8;
+            margin-top: 2px;
         }
 
-        .vehicle-card .remark-badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 4px;
-            background: #eef2f7;
+        .sync-badge {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #38ef7d;
+            border: 1px solid rgba(56, 239, 125, 0.3);
+            padding: 6px 14px;
+            border-radius: 20px;
             font-size: 12px;
-            margin-top: 5px;
-            font-weight: bold;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        /* Modal Styles */
+        .sync-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #38ef7d;
+            border-radius: 50%;
+        }
+
+        /* KPI Cards Grid */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .kpi-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+            border: 1px solid #f1f5f9;
+        }
+
+        .kpi-info h3 {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .kpi-info .value {
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .kpi-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        /* Color variations for KPI */
+        .kpi-total .value { color: #1e293b; }
+        .kpi-total .kpi-icon { background: #e0f2fe; color: #0284c7; }
+
+        .kpi-success .value { color: #16a34a; }
+        .kpi-success .kpi-icon { background: #dcfce7; color: #16a34a; }
+
+        .kpi-pending .value { color: #dc2626; }
+        .kpi-pending .kpi-icon { background: #fee2e2; color: #dc2626; }
+
+        .kpi-action .value { color: #d97706; }
+        .kpi-action .kpi-icon { background: #fef3c7; color: #d97706; }
+
+        /* Main Section & Controls */
+        .main-content {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+            border: 1px solid #f1f5f9;
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .controls-row select, .controls-row input {
+            padding: 10px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            background-color: #f8fafc;
+            font-size: 14px;
+            outline: none;
+            color: var(--text-main);
+            transition: all 0.2s;
+        }
+
+        .controls-row select:focus, .controls-row input:focus {
+            background-color: #ffffff;
+            border-color: #94a3b8;
+            box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.1);
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        /* Table Styling */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        th {
+            background-color: #f8fafc;
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th:first-child { border-top-left-radius: 8px; }
+        th:last-child { border-top-right-radius: 8px; }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 14px;
+            color: var(--text-main);
+            vertical-align: middle;
+        }
+
+        /* Vehicle Badge */
+        .vehicle-badge {
+            background: #eff6ff;
+            color: #2563eb;
+            border: 1px solid #bfdbfe;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+        }
+
+        /* Dynamic Status Pill */
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            background: #fffbeeb;
+            color: #d97706;
+            border: 1px solid #fde68a;
+        }
+
+        /* Action Button */
+        .btn-action {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
+        /* Loader & Modal */
+        .loader {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
             justify-content: center;
             align-items: center;
             z-index: 1000;
@@ -142,76 +282,117 @@
 
         .modal-content {
             background: var(--card-bg);
-            padding: 20px;
-            border-radius: 8px;
+            padding: 24px;
+            border-radius: 16px;
             max-width: 500px;
             width: 90%;
             max-height: 80vh;
             overflow-y: auto;
             position: relative;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
         .close-btn {
             position: absolute;
-            top: 10px; right: 15px;
-            font-size: 20px;
+            top: 16px; right: 20px;
+            font-size: 22px;
             cursor: pointer;
-            color: #888;
+            color: var(--text-muted);
         }
 
         .detail-item {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--border-color);
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
         }
 
-        .detail-label { font-weight: bold; color: #555; }
-        .detail-value { color: #111; }
-
-        .loader {
-            text-align: center;
-            font-size: 18px;
-            padding: 50px;
-        }
+        .detail-label { font-weight: 600; color: var(--text-muted); font-size: 13px; }
+        .detail-value { color: var(--text-main); font-weight: 500; font-size: 14px; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Master Vehicle Dashboard</h1>
-
-        <div class="stats-container">
-            <div class="stat-card">
-                <h3>कुल वाहन (Total Vehicles)</h3>
-                <div class="value" id="totalCount">0</div>
+    <div class="dashboard-container">
+        <!-- Top Dark Header -->
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <span style="font-size:24px;">🚛</span>
+                <div>
+                    <h1>AAP LIVE DASHBOARD</h1>
+                    <p>Managed by MRATYUNJAY • Real-time Sync ⚡</p>
+                </div>
             </div>
-            <div class="stat-card">
-                <h3>फ़िल्टर किए गए वाहन</h3>
-                <div class="value" id="filteredCount">0</div>
+            <div class="sync-badge">
+                <span class="sync-dot"></span> Live Sheet Sync
             </div>
         </div>
 
-        <div class="controls">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Search Vehicle Number, Owner, etc..." oninput="filterData()">
+        <!-- KPI Cards Grid -->
+        <div class="kpi-grid">
+            <div class="kpi-card kpi-total">
+                <div class="kpi-info">
+                    <h3>TOTAL CASES 📁</h3>
+                    <div class="value" id="totalCount">0</div>
+                </div>
+                <div class="kpi-icon">📁</div>
             </div>
-            <div class="filter-box">
+            <div class="kpi-card kpi-success">
+                <div class="kpi-info">
+                    <h3>CERTIFICATE ISSUED</h3>
+                    <div class="value" id="successCount">0</div>
+                </div>
+                <div class="kpi-icon">✔</div>
+            </div>
+            <div class="kpi-card kpi-pending">
+                <div class="kpi-info">
+                    <h3>PENDING ⏳</h3>
+                    <div class="value" id="pendingCount">0</div>
+                </div>
+                <div class="kpi-icon">⚠️</div>
+            </div>
+            <div class="kpi-card kpi-action">
+                <div class="kpi-info">
+                    <h3>NEED ACTION 🛠️</h3>
+                    <div class="value" id="actionCount">0</div>
+                </div>
+                <div class="kpi-icon">⚡</div>
+            </div>
+        </div>
+
+        <!-- Table Data Section -->
+        <div class="main-content">
+            <div class="controls-row">
                 <select id="remarkFilter" onchange="filterData()">
-                    <option value="ALL">All Remarks / Status</option>
+                    <option value="ALL">All Status / Remarks 🗺️</option>
                 </select>
+                <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search Vehicle, Owner, State..." oninput="filterData()">
+            </div>
+
+            <div id="loader" class="loader">डेटा लोड हो रहा है, कृपया प्रतीक्षा करें...</div>
+
+            <div class="table-responsive">
+                <table id="dataTable" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>VEHICLE NO.</th>
+                            <th>STATUS</th>
+                            <th>OWNER / COMPANY</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
             </div>
         </div>
-
-        <div id="loader" class="loader">डेटा लोड हो रहा है, कृपया प्रतीक्षा करें...</div>
-        <div id="vehicleGrid" class="vehicle-grid"></div>
     </div>
 
     <!-- Details Modal -->
     <div id="detailModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h2 id="modalTitle">Vehicle Details</h2>
+            <h2 id="modalTitle" style="margin-bottom: 16px; font-size: 18px;">Vehicle Details</h2>
             <div id="modalBody"></div>
         </div>
     </div>
@@ -226,7 +407,6 @@
         let vehicleKey = '', remarkKey = '', ownerKey = '';
 
         function loadData() {
-            // Using JSONP to bypass CORS issues on GitHub Pages
             const script = document.createElement('script');
             script.src = `${API_URL}?callback=handleData`;
             document.body.appendChild(script);
@@ -234,6 +414,8 @@
 
         function handleData(data) {
             document.getElementById('loader').style.display = 'none';
+            document.getElementById('dataTable').style.display = 'table';
+
             if (data.error) {
                 alert("Error fetching data: " + data.error);
                 return;
@@ -262,36 +444,59 @@
             });
 
             const select = document.getElementById('remarkFilter');
-            let optionsHTML = '<option value="ALL">All Remarks / Status</option>';
+            let optionsHTML = '<option value="ALL">All Status / Remarks</option>';
             remarks.forEach(rem => {
-                // FIXED: Template literal with correct syntax
                 optionsHTML += `<option value="EXACT:${rem}">${rem}</option>`;
             });
             select.innerHTML = optionsHTML;
         }
 
         function renderDashboard(data) {
+            // Count metrics
             document.getElementById('totalCount').innerText = masterData.length;
-            document.getElementById('filteredCount').innerText = data.length;
+            
+            let pending = 0, action = 0, success = 0;
+            masterData.forEach(item => {
+                const status = String(item[remarkKey] || '').toLowerCase();
+                if (status.includes('pending') || status.includes('only activation')) pending++;
+                if (status.includes('action') || status.includes('pending')) action++;
+                if (status.includes('issued') || status.includes('done') || status.includes('complete')) success++;
+            });
 
-            const grid = document.getElementById('vehicleGrid');
-            grid.innerHTML = '';
+            document.getElementById('pendingCount').innerText = pending;
+            document.getElementById('actionCount').innerText = action;
+            document.getElementById('successCount').innerText = success;
+
+            // Render Table Body
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
 
             data.forEach((item, index) => {
-                const card = document.createElement('div');
-                card.className = 'vehicle-card';
-                card.onclick = () => openVehicleDetail(item);
-
+                const tr = document.createElement('tr');
                 const regNo = item[vehicleKey] || 'N/A';
                 const owner = item[ownerKey] || 'N/A';
                 const remark = item[remarkKey] || 'N/A';
 
-                card.innerHTML = `
-                    <div class="reg-no">${regNo}</div>
-                    <div class="info"><strong>Owner:</strong> ${owner}</div>
-                    <div class="remark-badge">${remark}</div>
+                tr.innerHTML = `
+                    <td style="font-weight: 600; color: #94a3b8;">${index + 1}</td>
+                    <td>
+                        <span class="vehicle-badge">
+                            🚌 ${regNo}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="status-pill">
+                            ⚡ ${remark}
+                        </span>
+                    </td>
+                    <td><strong>${owner}</strong></td>
+                    <td>
+                        <button class="btn-action" onclick='openVehicleDetail(${JSON.stringify(item).replace(/'/g, "&apos;")})'>
+                            👁️ View All
+                        </button>
+                    </td>
                 `;
-                grid.appendChild(card);
+                tbody.appendChild(tr);
             });
         }
 
@@ -324,7 +529,6 @@
             Object.entries(item).forEach(([key, val]) => {
                 const detailItem = document.createElement('div');
                 detailItem.className = 'detail-item';
-                // FIXED: Template literal with spaces and correct variable names
                 detailItem.innerHTML = `<div class="detail-label">${key}</div><div class="detail-value">${val || '-'}</div>`;
                 body.appendChild(detailItem);
             });
@@ -336,7 +540,6 @@
             document.getElementById('detailModal').style.display = 'none';
         }
 
-        // Initialize on page load
         window.onload = loadData;
     </script>
 </body>
