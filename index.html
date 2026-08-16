@@ -3,429 +3,363 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PANINDIA LIVE DASHBOARD - PREMIUM</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>PAN INDIA DASHBOARD</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0b0f19;
-            --card-bg: #151c2c;
-            --card-border: rgba(255, 255, 255, 0.08);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent-blue: #3b82f6;
-            --accent-green: #10b981;
-            --accent-red: #ef4444;
-            --accent-amber: #f59e0b;
+            --gov-blue: #0b3c5d;
+            --gov-light-blue: #1d2731;
+            --gov-accent: #328cc1;
+            --bg-gray: #f4f6f9;
+            --border-color: #dbe2ea;
+            --text-dark: #2c3e50;
+            --text-muted: #6c757d;
         }
 
         * {
             box-sizing: border-box;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 0;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            padding: 24px;
+            background-color: var(--bg-gray);
+            color: var(--text-dark);
+            padding: 16px;
             min-height: 100vh;
         }
 
         .dashboard-container {
-            max-width: 1400px;
+            max-width: 1350px;
             margin: 0 auto;
         }
 
-        /* Top Modern Bar */
+        /* Gov Standard Header Header */
         .top-bar {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            border: 1px solid var(--card-border);
-            color: #ffffff;
-            padding: 24px 32px;
-            border-radius: 24px;
+            background-color: #ffffff;
+            border-top: 4px solid var(--gov-blue);
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 24px;
+            border-radius: 4px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 28px;
-            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.5);
-        }
-
-        .top-bar-left {
-            display: flex;
-            align-items: center;
-            gap: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .top-bar-left h1 {
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            background: linear-gradient(90deg, #ffffff, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--gov-blue);
+            letter-spacing: 0.3px;
         }
 
         .top-bar-left p {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-muted);
-            margin-top: 4px;
+            margin-top: 2px;
         }
 
         .sync-badge {
-            background: rgba(16, 185, 129, 0.1);
-            color: #34d399;
-            border: 1px solid rgba(52, 211, 153, 0.3);
-            padding: 10px 18px;
-            border-radius: 30px;
-            font-size: 13px;
+            background: #eef7ff;
+            color: var(--gov-blue);
+            border: 1px solid #b8daff;
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 12px;
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 10px;
-            backdrop-filter: blur(8px);
+            gap: 8px;
         }
 
         .sync-dot {
-            width: 9px;
-            height: 9px;
-            background-color: #34d399;
+            width: 8px;
+            height: 8px;
+            background-color: #28a745;
             border-radius: 50%;
-            box-shadow: 0 0 10px #34d399;
             animation: pulse 1.8s infinite;
         }
 
         @keyframes pulse {
             0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(1.3); }
+            50% { opacity: 0.4; transform: scale(1.2); }
             100% { opacity: 1; transform: scale(1); }
         }
 
-        /* KPI Interactive Cards */
+        /* Standard KPI Cards Grid */
         .kpi-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-            margin-bottom: 28px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
         }
 
         .kpi-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            padding: 24px;
-            border-radius: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 16px 20px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s ease;
             position: relative;
-            overflow: hidden;
         }
 
         .kpi-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
-            border-color: rgba(255, 255, 255, 0.2);
+            border-color: var(--gov-accent);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
         }
 
         .kpi-card.active {
-            border: 2px solid var(--accent-blue);
-            background: rgba(30, 41, 59, 0.9);
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+            border-left: 4px solid var(--gov-blue);
+            background-color: #f8fafc;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
         .kpi-info h3 {
-            font-size: 12px;
+            font-size: 11px;
             text-transform: uppercase;
             color: var(--text-muted);
-            font-weight: 800;
-            letter-spacing: 0.8px;
-            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
         }
 
         .kpi-info .value {
-            font-size: 36px;
-            font-weight: 800;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--gov-blue);
             line-height: 1;
         }
 
-        .kpi-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-        }
-
-        .kpi-total .value { color: var(--text-main); }
-        .kpi-total .kpi-icon { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
-
-        .kpi-success .value { color: var(--accent-green); }
-        .kpi-success .kpi-icon { background: rgba(16, 185, 129, 0.15); color: #34d399; }
-
-        .kpi-pending .value { color: var(--accent-red); }
-        .kpi-pending .kpi-icon { background: rgba(239, 68, 68, 0.15); color: #f87171; }
-
-        .kpi-action .value { color: var(--accent-amber); }
-        .kpi-action .kpi-icon { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
-
-        /* Main Section Controls & Table */
+        /* Filters & Table Layout */
         .main-content {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 24px;
-            padding: 28px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .controls-row {
             display: flex;
-            gap: 16px;
-            margin-bottom: 24px;
+            gap: 12px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
         }
 
         .controls-row select, .controls-row input {
-            padding: 14px 20px;
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            background-color: #0f172a;
-            font-size: 14px;
-            font-weight: 600;
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: #fff;
+            font-size: 13px;
+            color: var(--text-dark);
             outline: none;
-            color: var(--text-main);
-            transition: all 0.2s;
         }
 
         .controls-row select:focus, .controls-row input:focus {
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+            border-color: var(--gov-accent);
         }
 
         .search-input {
             flex: 1;
-            min-width: 280px;
+            min-width: 250px;
         }
 
-        /* Table Styling */
+        /* Clean Gov Table */
         .table-responsive {
             overflow-x: auto;
         }
 
         table {
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
+            border-collapse: collapse;
+            font-size: 13px;
         }
 
         th {
-            background-color: #0f172a;
-            color: var(--text-muted);
-            font-size: 11px;
-            font-weight: 800;
+            background-color: #f1f5f9;
+            color: var(--gov-blue);
+            font-size: 12px;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 18px 20px;
+            padding: 12px 16px;
             text-align: left;
-            border-bottom: 1px solid var(--card-border);
+            border-bottom: 2px solid var(--border-color);
         }
 
-        th:first-child { border-top-left-radius: 14px; }
-        th:last-child { border-top-right-radius: 14px; }
-
         td {
-            padding: 18px 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            font-size: 14px;
-            color: var(--text-main);
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-dark);
             vertical-align: middle;
         }
 
-        tr:hover td {
-            background-color: rgba(255, 255, 255, 0.02);
+        tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        tr:hover {
+            background-color: #f1f5f9;
         }
 
         .count-col {
-            font-weight: 700;
-            color: var(--text-muted);
-        }
-
-        .vehicle-badge {
-            background: rgba(59, 130, 246, 0.1);
-            color: #93c5fd;
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            padding: 8px 16px;
-            border-radius: 12px;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .status-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 14px;
-            border-radius: 30px;
-            font-size: 12px;
-            font-weight: 700;
-            background: rgba(245, 158, 11, 0.1);
-            color: #fcd34d;
-            border: 1px solid rgba(245, 158, 11, 0.3);
-        }
-
-        .owner-text {
             font-weight: 600;
-            color: #e2e8f0;
+            color: var(--text-muted);
+            width: 80px;
         }
 
-        .btn-action {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--card-border);
-            color: var(--text-main);
-            padding: 8px 16px;
-            border-radius: 12px;
-            font-size: 12px;
+        /* Clickable Vehicle Link */
+        .vehicle-link {
+            color: var(--gov-blue);
             font-weight: 700;
+            text-decoration: underline;
             cursor: pointer;
-            transition: all 0.2s;
         }
 
-        .btn-action:hover {
-            background: var(--accent-blue);
-            border-color: var(--accent-blue);
-            color: #fff;
+        .vehicle-link:hover {
+            color: var(--gov-accent);
+        }
+
+        .status-tag {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 600;
+            background-color: #e2e8f0;
+            color: #334155;
         }
 
         .loader {
             text-align: center;
-            padding: 50px;
+            padding: 40px;
             color: var(--text-muted);
-            font-weight: 600;
+            font-size: 14px;
         }
 
-        /* Modal Details */
+        /* Official Details Modal */
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.4);
             justify-content: center;
             align-items: center;
             z-index: 1000;
         }
 
         .modal-content {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            padding: 32px;
-            border-radius: 24px;
-            max-width: 550px;
+            background: #ffffff;
+            border-radius: 4px;
+            padding: 24px;
+            max-width: 500px;
             width: 90%;
-            max-height: 80vh;
+            max-height: 85vh;
             overflow-y: auto;
             position: relative;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            border-top: 4px solid var(--gov-blue);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
 
         .close-btn {
             position: absolute;
-            top: 20px; right: 24px;
-            font-size: 24px;
+            top: 16px; right: 20px;
+            font-size: 20px;
             cursor: pointer;
             color: var(--text-muted);
+            font-weight: bold;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gov-blue);
+            margin-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
         }
 
         .detail-item {
             display: flex;
             justify-content: space-between;
-            padding: 14px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
         }
 
-        .detail-label { font-weight: 600; color: var(--text-muted); font-size: 13px; }
-        .detail-value { color: var(--text-main); font-weight: 700; font-size: 14px; }
+        .detail-label { font-weight: 600; color: var(--text-muted); font-size: 12px; }
+        .detail-value { color: var(--text-dark); font-weight: 600; font-size: 13px; }
     </style>
 </head>
 <body>
 
     <div class="dashboard-container">
-        <!-- Top Bar -->
+        <!-- Top Bar Header -->
         <div class="top-bar">
             <div class="top-bar-left">
-                <span style="font-size:32px;">🚛</span>
-                <div>
-                    <h1>PANINDIA LIVE DASHBOARD</h1>
-                    <p>Managed by MRATYUNJAY • Real-time Sync ⚡</p>
-                </div>
+                <h1>PAN INDIA LIVE DASHBOARD</h1>
+                <p>Managed by MRATYUNJAY | Official Data</p>
             </div>
             <div class="sync-badge">
                 <span class="sync-dot"></span> Live Auto Sync (10s)
             </div>
         </div>
 
-        <!-- Interactive KPI Cards -->
+        <!-- Dynamic Connected KPI Cards -->
         <div class="kpi-grid">
-            <div class="kpi-card kpi-total active" id="card-ALL" onclick="setCardFilter('ALL')">
+            <div class="kpi-card active" id="card-ALL" onclick="setCardFilter('ALL')">
                 <div class="kpi-info">
-                    <h3>TOTAL CASES 📁</h3>
+                    <h3>TOTAL CASES</h3>
                     <div class="value" id="totalCount">0</div>
                 </div>
-                <div class="kpi-icon">📁</div>
             </div>
-            <div class="kpi-card kpi-success" id="card-SUCCESS" onclick="setCardFilter('SUCCESS')">
+            <div class="kpi-card" id="card-SUCCESS" onclick="setCardFilter('SUCCESS')">
                 <div class="kpi-info">
                     <h3>CERTIFICATE ISSUED</h3>
                     <div class="value" id="successCount">0</div>
                 </div>
-                <div class="kpi-icon">✔</div>
             </div>
-            <div class="kpi-card kpi-pending" id="card-PENDING" onclick="setCardFilter('PENDING')">
+            <div class="kpi-card" id="card-PENDING" onclick="setCardFilter('PENDING')">
                 <div class="kpi-info">
-                    <h3>PENDING ⏳</h3>
+                    <h3>PENDING</h3>
                     <div class="value" id="pendingCount">0</div>
                 </div>
-                <div class="kpi-icon">⚠️</div>
             </div>
-            <div class="kpi-card kpi-action" id="card-ACTION" onclick="setCardFilter('ACTION')">
+            <div class="kpi-card" id="card-ACTION" onclick="setCardFilter('ACTION')">
                 <div class="kpi-info">
-                    <h3>NEED ACTION 🛠️</h3>
+                    <h3>NEED ACTION</h3>
                     <div class="value" id="actionCount">0</div>
                 </div>
-                <div class="kpi-icon">⚡</div>
             </div>
         </div>
 
-        <!-- Filters & Table -->
+        <!-- Dropdowns & Table -->
         <div class="main-content">
             <div class="controls-row">
                 <select id="stateFilter" onchange="filterData()">
-                    <option value="ALL">All States </option>
+                    <option value="ALL">All States</option>
                 </select>
 
                 <select id="remarkFilter" onchange="filterData()">
                     <option value="ALL">All Status / Remarks</option>
                 </select>
 
-                <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search Vehicle, Owner, State..." oninput="filterData()">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search Vehicle, Owner, State..." oninput="filterData()">
             </div>
 
-            <div id="loader" class="loader">data processing please wait ...</div>
+            <div id="loader" class="loader">Loading data from server, please wait...</div>
 
             <div class="table-responsive">
                 <table id="dataTable" style="display: none;">
                     <thead>
                         <tr>
-                            <th>SR.NO.</th>
+                            <th>S.NO.</th>
                             <th>VEHICLE NUMBER</th>
                             <th>REMARK</th>
                             <th>OWNER NAME</th>
-                            <th>ACTION</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody"></tbody>
@@ -434,11 +368,11 @@
         </div>
     </div>
 
-    <!-- Details Modal -->
+    <!-- Vehicle Detail Modal -->
     <div id="detailModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h2 id="modalTitle" style="margin-bottom: 20px; font-size: 20px; font-weight: 800; color: var(--accent-blue);">Vehicle Details</h2>
+            <div class="modal-title" id="modalTitle">Vehicle Details</div>
             <div id="modalBody"></div>
         </div>
     </div>
@@ -457,14 +391,12 @@
         let activeCardFilter = 'ALL';
         let isFirstLoad = true;
 
-        // Auto Match Headers (Case-insensitive & Whitespace-trimmed)
         function getValueByHeader(rowObj, headerName) {
             if (!rowObj || !headerName) return '';
             const key = Object.keys(rowObj).find(k => k.trim().toLowerCase() === headerName.trim().toLowerCase());
             return key ? rowObj[key] : '';
         }
 
-        // Fetch Data from Apps Script with Cache-Buster
         function loadData() {
             const oldScript = document.getElementById('jsonpScript');
             if (oldScript) oldScript.remove();
@@ -488,36 +420,14 @@
             }
 
             masterData = data;
-            updateKPICounts();
             populateDropdowns();
-            filterData();
+            filterData(); // This will apply filters and update KPI counts simultaneously
         }
 
-        // Live Dynamic Counts for KPI Cards
-        function updateKPICounts() {
-            document.getElementById('totalCount').innerText = masterData.length;
-            
-            let pending = 0, action = 0, success = 0;
-            masterData.forEach(item => {
-                const status = String(getValueByHeader(item, HEADERS.REMARK)).toLowerCase();
-                if (status.includes('pending') || status.includes('wait')) pending++;
-                if (status.includes('action') || status.includes('need') || status.includes('rto')) action++;
-                if (status.includes('issued') || status.includes('done') || status.includes('success') || status.includes('complete')) success++;
-            });
-
-            document.getElementById('pendingCount').innerText = pending;
-            document.getElementById('actionCount').innerText = action;
-            document.getElementById('successCount').innerText = success;
-        }
-
-        // Click Event for Top Cards
         function setCardFilter(type) {
             activeCardFilter = type;
-            
-            // Highlight Selected Card
             document.querySelectorAll('.kpi-card').forEach(card => card.classList.remove('active'));
             document.getElementById(`card-${type}`).classList.add('active');
-
             filterData();
         }
 
@@ -551,7 +461,7 @@
             remarkSelect.innerHTML = remarkHTML;
 
             const stateSelect = document.getElementById('stateFilter');
-            let stateHTML = '<option value="ALL">All States 🗺️</option>';
+            let stateHTML = '<option value="ALL">All States</option>';
             states.forEach(st => {
                 stateHTML += `<option value="${st}" ${st === currentState ? 'selected' : ''}>${st}</option>`;
             });
@@ -563,28 +473,16 @@
             const selectedRemark = document.getElementById('remarkFilter').value;
             const selectedState = document.getElementById('stateFilter').value;
 
-            const filtered = masterData.filter(item => {
+            // Step 1: Dropdown & Search base dataset (Used for updating KPI numbers)
+            const baseFilteredData = masterData.filter(item => {
                 const vehVal = String(getValueByHeader(item, HEADERS.VEHICLE)).trim();
                 const remVal = String(getValueByHeader(item, HEADERS.REMARK)).trim();
                 const stateVal = String(getValueByHeader(item, HEADERS.STATE)).trim();
-                const statusLower = remVal.toLowerCase();
 
-                // 1. KPI Card Click Logic Filter
-                let matchesCard = true;
-                if (activeCardFilter === 'SUCCESS') {
-                    matchesCard = statusLower.includes('issued') || statusLower.includes('done') || statusLower.includes('success') || statusLower.includes('complete');
-                } else if (activeCardFilter === 'PENDING') {
-                    matchesCard = statusLower.includes('pending') || statusLower.includes('wait');
-                } else if (activeCardFilter === 'ACTION') {
-                    matchesCard = statusLower.includes('action') || statusLower.includes('need') || statusLower.includes('rto');
-                }
-
-                // 2. Search Text Logic Filter
                 const matchesSearch = Object.values(item).some(val => 
                     String(val).toLowerCase().includes(searchValue)
                 );
 
-                // 3. Dropdown Logic Filter
                 const matchesRemark = (selectedRemark === 'ALL') || (remVal === selectedRemark);
 
                 let matchesState = true;
@@ -596,10 +494,44 @@
                     }
                 }
 
-                return matchesCard && matchesSearch && matchesRemark && matchesState;
+                return matchesSearch && matchesRemark && matchesState;
             });
 
-            renderDashboard(filtered);
+            // Step 2: Update Top KPI counts dynamically based on baseFilteredData
+            updateKPICounts(baseFilteredData);
+
+            // Step 3: Apply Selected KPI Card Filter for Table Output
+            const finalFiltered = baseFilteredData.filter(item => {
+                const remVal = String(getValueByHeader(item, HEADERS.REMARK)).trim();
+                const statusLower = remVal.toLowerCase();
+
+                if (activeCardFilter === 'SUCCESS') {
+                    return statusLower.includes('issued') || statusLower.includes('done') || statusLower.includes('success') || statusLower.includes('complete');
+                } else if (activeCardFilter === 'PENDING') {
+                    return statusLower.includes('pending') || statusLower.includes('wait');
+                } else if (activeCardFilter === 'ACTION') {
+                    return statusLower.includes('action') || statusLower.includes('need') || statusLower.includes('rto');
+                }
+                return true; // ALL
+            });
+
+            renderDashboard(finalFiltered);
+        }
+
+        function updateKPICounts(data) {
+            document.getElementById('totalCount').innerText = data.length;
+            
+            let pending = 0, action = 0, success = 0;
+            data.forEach(item => {
+                const status = String(getValueByHeader(item, HEADERS.REMARK)).toLowerCase();
+                if (status.includes('pending') || status.includes('wait')) pending++;
+                if (status.includes('action') || status.includes('need') || status.includes('rto')) action++;
+                if (status.includes('issued') || status.includes('done') || status.includes('success') || status.includes('complete')) success++;
+            });
+
+            document.getElementById('pendingCount').innerText = pending;
+            document.getElementById('actionCount').innerText = action;
+            document.getElementById('successCount').innerText = success;
         }
 
         function renderDashboard(data) {
@@ -615,21 +547,16 @@
                 tr.innerHTML = `
                     <td class="count-col">${index + 1}</td>
                     <td>
-                        <span class="vehicle-badge">
-                            🚌 ${regNo}
+                        <span class="vehicle-link" onclick='openVehicleDetail(${JSON.stringify(item).replace(/'/g, "&apos;")})'>
+                            ${regNo}
                         </span>
                     </td>
                     <td>
-                        <span class="status-pill">
-                            ⚡ ${remark}
+                        <span class="status-tag">
+                            ${remark}
                         </span>
                     </td>
-                    <td><span class="owner-text">${owner}</span></td>
-                    <td>
-                        <button class="btn-action" onclick='openVehicleDetail(${JSON.stringify(item).replace(/'/g, "&apos;")})'>
-                            👁️ View All
-                        </button>
-                    </td>
+                    <td>${owner}</td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -655,10 +582,9 @@
             document.getElementById('detailModal').style.display = 'none';
         }
 
-        // Initialize and Start 10-Second Auto Sync
         window.onload = () => {
             loadData();
-            setInterval(loadData, 10000); // 10000 ms = 10 Sec
+            setInterval(loadData, 10000);
         };
     </script>
 </body>
