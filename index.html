@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vehicle Onboarding Executive Dashboard</title>
+  <title>Author Dashboard</title>
   <!-- Google Fonts & FontAwesome -->
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -17,16 +17,12 @@
       --primary: #4318ff;
       --primary-hover: #3311cc;
       --primary-light: #f0f3ff;
-      
       --success: #05cd99;
       --success-bg: #e6f9f0;
-      
       --danger: #ee5d50;
       --danger-bg: #fde8e8;
-      
       --warning: #ffb547;
       --warning-bg: #fff8e7;
-      
       --border-color: #e2e8f0;
       --shadow-sm: 0 2px 4px rgba(15, 23, 42, 0.03);
       --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 8px 10px -6px rgba(15, 23, 42, 0.02);
@@ -43,10 +39,7 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    .container {
-      max-width: 1350px;
-      margin: 0 auto;
-    }
+    .container { max-width: 1350px; margin: 0 auto; }
 
     /* Executive Header */
     .dashboard-header {
@@ -113,7 +106,7 @@
       width: 8px; height: 8px; background: #05cd99; border-radius: 50%; box-shadow: 0 0 10px #05cd99;
     }
 
-    /* KPI Metric Cards Grid */
+    /* Metric Cards */
     .metrics-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -132,8 +125,6 @@
       border: 1px solid var(--border-color);
       cursor: pointer;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
     }
 
     .metric-card:hover {
@@ -165,10 +156,6 @@
       align-items: center; 
       justify-content: center; 
       font-size: 22px; 
-      transition: transform 0.3s;
-    }
-    .metric-card:hover .metric-icon {
-      transform: scale(1.1);
     }
 
     .icon-total { background: #e0f2fe; color: #0284c7; }
@@ -176,7 +163,7 @@
     .icon-pending { background: var(--danger-bg); color: var(--danger); }
     .icon-action { background: var(--warning-bg); color: var(--warning); }
 
-    /* Main Table Container Card */
+    /* Main Table Container */
     .main-card {
       background: var(--card-bg);
       border-radius: 20px;
@@ -193,9 +180,9 @@
       gap: 16px; 
       margin-bottom: 24px; 
     }
-    .filter-group { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .filter-group { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 
-    .search-wrapper { position: relative; width: 300px; }
+    .search-wrapper { position: relative; width: 280px; }
     .search-wrapper i { 
       position: absolute; 
       left: 16px; 
@@ -215,16 +202,11 @@
       background: #f8fafc;
       color: var(--text-main);
       font-weight: 500;
-      transition: all 0.2s;
     }
-    .search-input:focus { 
-      border-color: var(--primary); 
-      background: #ffffff; 
-      box-shadow: 0 0 0 4px rgba(67, 24, 255, 0.1); 
-    }
+    .search-input:focus { border-color: var(--primary); background: #ffffff; }
 
     .select-filter { 
-      padding: 12px 18px; 
+      padding: 12px 16px; 
       border: 1px solid var(--border-color); 
       border-radius: 12px; 
       font-size: 13px; 
@@ -233,10 +215,7 @@
       color: var(--text-main); 
       font-weight: 600; 
       cursor: pointer;
-      max-width: 320px;
-      transition: all 0.2s;
     }
-    .select-filter:focus { border-color: var(--primary); background: #ffffff; }
 
     .btn-export { 
       background: var(--text-main); 
@@ -250,12 +229,8 @@
       display: flex; 
       align-items: center; 
       gap: 10px; 
-      transition: all 0.2s;
     }
-    .btn-export:hover { 
-      background: var(--primary); 
-      box-shadow: 0 6px 16px rgba(67, 24, 255, 0.25);
-    }
+    .btn-export:hover { background: var(--primary); }
 
     /* Table Styling */
     .table-container { 
@@ -265,28 +240,9 @@
     }
     
     table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13.5px; }
-    
     thead tr { background-color: #f1f5f9; border-bottom: 1px solid var(--border-color); }
-    th { 
-      padding: 16px 20px; 
-      font-weight: 700; 
-      color: var(--text-muted); 
-      text-transform: uppercase; 
-      font-size: 11px; 
-      letter-spacing: 0.8px; 
-    }
-    
-    td { 
-      padding: 16px 20px; 
-      border-bottom: 1px solid var(--border-color); 
-      color: var(--text-main); 
-      vertical-align: middle; 
-      font-weight: 500;
-    }
-    
-    tbody tr { transition: background-color 0.15s; }
-    tbody tr:hover { background-color: #f8fafc; }
-    tbody tr:last-child td { border-bottom: none; }
+    th { padding: 16px 20px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; font-size: 11px; }
+    td { padding: 16px 20px; border-bottom: 1px solid var(--border-color); color: var(--text-main); font-weight: 500; }
 
     .btn-vehicle {
       background: var(--primary-light); 
@@ -300,15 +256,7 @@
       align-items: center; 
       gap: 8px; 
       font-size: 13px;
-      transition: all 0.2s;
     }
-    .btn-vehicle:hover { 
-      background: var(--primary); 
-      color: #ffffff; 
-      border-color: var(--primary);
-      box-shadow: 0 4px 12px rgba(67, 24, 255, 0.2);
-    }
-
     .btn-view {
       background: #f1f5f9; 
       color: #475569; 
@@ -321,24 +269,14 @@
       align-items: center; 
       gap: 6px; 
       font-size: 12px;
-      transition: all 0.2s;
     }
-    .btn-view:hover { background: #e2e8f0; color: #0f172a; }
 
-    .badge { 
-      padding: 6px 12px; 
-      border-radius: 30px; 
-      font-size: 11.5px; 
-      font-weight: 700; 
-      display: inline-flex; 
-      align-items: center; 
-      gap: 6px; 
-    }
+    .badge { padding: 6px 12px; border-radius: 30px; font-size: 11.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; }
     .badge-issued { background-color: var(--success-bg); color: #047857; }
     .badge-pending { background-color: var(--danger-bg); color: #b91c1c; }
     .badge-warning { background-color: var(--warning-bg); color: #b45309; }
 
-    /* Modal Detail Overlay */
+    /* Modal Overlay */
     .modal-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(15, 23, 42, 0.6); 
@@ -356,7 +294,6 @@
       border-radius: 20px; 
       overflow: hidden; 
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); 
-      border: 1px solid var(--border-color);
     }
 
     .modal-header { 
@@ -367,30 +304,12 @@
       justify-content: space-between; 
       align-items: center; 
     }
-    .modal-header h3 { font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
-
-    .close-modal { 
-      background: rgba(255,255,255,0.1); 
-      border: none; 
-      color: white; 
-      width: 32px; 
-      height: 32px; 
-      border-radius: 50%; 
-      cursor: pointer; 
-      font-size: 18px; 
-    }
-    .close-modal:hover { background: rgba(255,255,255,0.25); }
+    .close-modal { background: rgba(255,255,255,0.1); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 18px; }
 
     .modal-body { padding: 28px; max-height: 70vh; overflow-y: auto; }
     .detail-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-    
-    .detail-item { 
-      background: #f8fafc; 
-      padding: 14px 16px; 
-      border-radius: 12px; 
-      border: 1px solid var(--border-color); 
-    }
-    .detail-label { font-size: 10.5px; text-transform: uppercase; color: var(--text-muted); font-weight: 700; letter-spacing: 0.5px; }
+    .detail-item { background: #f8fafc; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--border-color); }
+    .detail-label { font-size: 10.5px; text-transform: uppercase; color: var(--text-muted); font-weight: 700; }
     .detail-value { font-size: 14px; color: var(--text-main); font-weight: 700; margin-top: 5px; word-break: break-word; }
 
     #loader { text-align: center; padding: 50px; color: var(--primary); font-weight: 700; font-size: 15px; }
@@ -399,7 +318,6 @@
 <body>
 
   <div class="container">
-    <!-- Header -->
     <div class="dashboard-header">
       <div>
         <h1><i class="fa-solid fa-truck-monster"></i> Vehicle Onboarding Dashboard</h1>
@@ -410,9 +328,8 @@
       </div>
     </div>
 
-    <!-- KPI Metric Cards -->
     <div class="metrics-grid">
-      <div class="metric-card" onclick="filterByCard('ALL')" title="Click to view all cases">
+      <div class="metric-card" onclick="filterByCard('ALL')">
         <div class="metric-info">
           <p>Total Cases</p>
           <h2 id="totalCases">0</h2>
@@ -420,7 +337,7 @@
         <div class="metric-icon icon-total"><i class="fa-solid fa-folder-closed"></i></div>
       </div>
 
-      <div class="metric-card" onclick="filterByCard('ISSUED')" title="Click to view Issued cases">
+      <div class="metric-card" onclick="filterByCard('ISSUED')">
         <div class="metric-info">
           <p>Certificate Issued</p>
           <h2 id="issuedCount" style="color: var(--success);">0</h2>
@@ -428,7 +345,7 @@
         <div class="metric-icon icon-issued"><i class="fa-solid fa-circle-check"></i></div>
       </div>
 
-      <div class="metric-card" onclick="filterByCard('PENDING')" title="Click to view Pending cases">
+      <div class="metric-card" onclick="filterByCard('PENDING')">
         <div class="metric-info">
           <p>Total Pendency</p>
           <h2 id="pendingCount" style="color: var(--danger);">0</h2>
@@ -436,7 +353,7 @@
         <div class="metric-icon icon-pending"><i class="fa-solid fa-triangle-exclamation"></i></div>
       </div>
 
-      <div class="metric-card" onclick="filterByCard('NEED_ACTION')" title="Click to view Actionable cases">
+      <div class="metric-card" onclick="filterByCard('NEED_ACTION')">
         <div class="metric-info">
           <p>Need Action</p>
           <h2 id="actionableCount" style="color: var(--warning);">0</h2>
@@ -445,7 +362,6 @@
       </div>
     </div>
 
-    <!-- Main Table Container -->
     <div class="main-card" id="mainTableCard">
       <div class="filter-bar">
         <div class="filter-group">
@@ -454,13 +370,17 @@
             <input type="text" id="searchInput" class="search-input" placeholder="Search Vehicle, IMEI, Owner..." onkeyup="applyFilters()">
           </div>
           
-          <!-- Dynamic Select Dropdown -->
+          <!-- State Filter Dropdown -->
+          <select id="stateFilter" class="select-filter" onchange="applyFilters()">
+            <option value="ALL">All States</option>
+          </select>
+
+          <!-- Status Remarks Dropdown -->
           <select id="remarkFilter" class="select-filter" onchange="applyFilters()">
             <option value="ALL">All Status / Remarks</option>
             <option value="ISSUED">Certificate Issued</option>
             <option value="PENDING">Total Pending</option>
-            <option value="NEED_ACTION">Need Action (3 Specific Conditions)</option>
-            <!-- Sheet ke saare unique remarks yahan auto-add ho jayenge -->
+            <option value="NEED_ACTION">Need Action</option>
           </select>
         </div>
         <button class="btn-export" onclick="exportDataToCSV()"><i class="fa-solid fa-file-csv"></i> Export CSV</button>
@@ -476,6 +396,7 @@
               <th>Vehicle Number</th>
               <th>Remark / Status</th>
               <th>Owner / Company</th>
+              <th>State</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -499,7 +420,6 @@
   </div>
 
   <script>
-    // ⚠️ APNA GOOGLE APPS SCRIPT URL HERE PASTE KAREIN
     const API_URL = "https://script.google.com/macros/s/AKfycbwCc3ZFIb2Tkp4ZA971WpOHWBgYz3NiWhK4bLYxk99_a4nK9XX9mYSuVRSnPlUs-tjDeg/exec";
 
     let rawData = [];
@@ -523,7 +443,7 @@
       rawData = data;
       currentFilteredData = rawData;
 
-      populateRemarkFilter(rawData); // Dynamically populate dropdown
+      populateDropdowns(rawData);
       calculateMetrics(rawData);
       renderTable(rawData);
 
@@ -534,14 +454,12 @@
     function getVal(row, possibleNames) {
       if (!row) return '';
       const keys = Object.keys(row);
-      
       for (let name of possibleNames) {
         let matchedKey = keys.find(k => k.toLowerCase().trim() === name.toLowerCase().trim());
         if (matchedKey && row[matchedKey] !== undefined && row[matchedKey] !== '') {
           return row[matchedKey];
         }
       }
-
       for (let name of possibleNames) {
         let matchedKey = keys.find(k => k.toLowerCase().includes(name.toLowerCase()));
         if (matchedKey && row[matchedKey] !== undefined && row[matchedKey] !== '') {
@@ -551,78 +469,71 @@
       return '';
     }
 
-    // Sheet ke saare Unique Remarks ko Select Options me include karne ka function
-    function populateRemarkFilter(data) {
-      const dropdown = document.getElementById('remarkFilter');
+    function populateDropdowns(data) {
+      const remarkDropdown = document.getElementById('remarkFilter');
+      const stateDropdown = document.getElementById('stateFilter');
       
-      // Basic Static Options preserved
-      let optionsHTML = `
+      let remarkHTML = `
         <option value="ALL">All Status / Remarks</option>
         <option value="ISSUED">Certificate Issued</option>
         <option value="PENDING">Total Pending</option>
-        <option value="NEED_ACTION">Need Action (3 Specific Conditions)</option>
+        <option value="NEED_ACTION">Need Action</option>
         <option disabled>────────── Sheet Remarks ──────────</option>
       `;
+      let stateHTML = `<option value="ALL">All States</option>`;
 
       const uniqueRemarks = new Set();
+      const uniqueStates = new Set();
 
       data.forEach(row => {
         let remark = getVal(row, ['Remarks', 'Remark', 'Portal Status', 'Portal', 'Status']);
-        if (remark && remark.toString().trim() !== '') {
-          uniqueRemarks.add(remark.toString().trim());
-        }
+        let state = getVal(row, ['State', 'State Name', 'Location']);
+        
+        if (remark) uniqueRemarks.add(remark.toString().trim());
+        if (state) uniqueStates.add(state.toString().trim());
       });
 
-      // Sort alphabetically and add to dropdown
       Array.from(uniqueRemarks).sort().forEach(rem => {
-        optionsHTML += `<option value="EXACT:rem">{rem}</option>`;
+        remarkHTML += `<option value="EXACT:${rem}">${rem}</option>`;
       });
 
-      dropdown.innerHTML = optionsHTML;
+      Array.from(uniqueStates).sort().forEach(st => {
+        stateHTML += `<option value="${st}">${st}</option>`;
+      });
+
+      remarkDropdown.innerHTML = remarkHTML;
+      stateDropdown.innerHTML = stateHTML;
     }
 
     function getVehicleNumber(row) {
       let veh = getVal(row, ['Vehicle Reg No', 'Vehicle Registration No', 'Vehicle Number', 'Vehicle No', 'Veh No', 'Reg No', 'Vehicle No.']);
-      
       if (veh && !veh.toUpperCase().startsWith('TRAX') && !veh.toUpperCase().startsWith('IMEI') && veh.length < 15) {
         return veh;
       }
-
       const keys = Object.keys(row);
       for (let k of keys) {
         let val = (row[k] || '').toString().trim();
-        if (val.match(/^[A-Z]{2}[0-9]{1,2}[A-Z]{0,3}[0-9]{4}$/i)) {
-          return val;
-        }
+        if (val.match(/^[A-Z]{2}[0-9]{1,2}[A-Z]{0,3}[0-9]{4}$/i)) return val;
       }
       return veh || 'N/A';
     }
 
     function isNeedActionStatus(remark) {
       let rem = remark.toString().toLowerCase();
-      return rem.includes('activation pending') || 
-             rem.includes('check not clear') || 
-             rem.includes('topup pending') || 
-             rem.includes('top up pending');
+      return rem.includes('activation pending') || rem.includes('check not clear') || rem.includes('topup pending') || rem.includes('top up pending');
     }
 
     function calculateMetrics(data) {
-      let total = data.length;
-      let issued = 0, pending = 0, needAction = 0;
+      let total = data.length, issued = 0, pending = 0, needAction = 0;
 
       data.forEach(row => {
         let remark = (getVal(row, ['Remarks', 'Remark', 'Portal Status', 'Portal', 'Status', 'Cert Status']) || '').toString();
         let remLower = remark.toLowerCase();
 
-        if (remLower.includes('issued') || remLower.includes('done') || remLower.includes('completed') || remLower.includes('certificate')) {
-          issued++;
-        } else {
-          pending++;
-        }
+        if (remLower.includes('issued') || remLower.includes('done') || remLower.includes('completed')) issued++;
+        else pending++;
 
-        if (isNeedActionStatus(remark)) {
-          needAction++;
-        }
+        if (isNeedActionStatus(remark)) needAction++;
       });
 
       document.getElementById('totalCases').innerText = total;
@@ -636,14 +547,15 @@
       tbody.innerHTML = '';
 
       if (data.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:36px; color:var(--text-muted);">No matching vehicle records found.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:36px; color:var(--text-muted);">No matching vehicle records found.</td></tr>`;
         return;
       }
 
       data.forEach((row, index) => {
         const vehicleNo = getVehicleNumber(row);
         const remark = getVal(row, ['Remarks', 'Remark', 'Portal Status', 'Portal', 'Status']) || 'Pending';
-        const owner = getVal(row, ['Owner Name', 'Owner', 'Customer Name', 'Customer', 'Party Name', 'Party', 'Transporter', 'Client']) || '-';
+        const owner = getVal(row, ['Owner Name', 'Owner', 'Customer Name', 'Customer', 'Party Name', 'Party', 'Transporter']) || '-';
+        const state = getVal(row, ['State', 'State Name', 'Location']) || '-';
 
         let remarkBadge = `<span class="badge badge-warning"><i class="fa-solid fa-clock"></i> ${remark}</span>`;
         let remLower = remark.toString().toLowerCase();
@@ -664,6 +576,7 @@
           </td>
           <td>${remarkBadge}</td>
           <td><strong>${owner}</strong></td>
+          <td>${state}</td>
           <td>
             <button class="btn-view" onclick="openVehicleDetail(${index})">
               <i class="fa-solid fa-eye"></i> View All
@@ -679,25 +592,26 @@
       if (dropdown) {
         dropdown.value = filterType;
         applyFilters();
-
-        document.getElementById('mainTableCard').scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'start' 
-        });
+        document.getElementById('mainTableCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }
 
     function applyFilters() {
       const query = document.getElementById('searchInput').value.toLowerCase();
       const statusFilter = document.getElementById('remarkFilter').value;
+      const selectedState = document.getElementById('stateFilter').value;
 
       currentFilteredData = rawData.filter(row => {
         const matchesSearch = Object.values(row).some(v => 
           v !== null && v !== undefined && v.toString().toLowerCase().includes(query)
         );
+        
         const remark = (getVal(row, ['Remarks', 'Remark', 'Portal Status', 'Portal', 'Status']) || '').toString();
+        const state = (getVal(row, ['State', 'State Name', 'Location']) || '').toString();
+        
         let remLower = remark.toLowerCase();
         let matchesStatus = true;
+        let matchesState = (selectedState === "ALL") || (state.trim().toLowerCase() === selectedState.trim().toLowerCase());
 
         if (statusFilter === 'ISSUED') {
           matchesStatus = remLower.includes('issued') || remLower.includes('done') || remLower.includes('completed');
@@ -710,7 +624,7 @@
           matchesStatus = (remark.trim() === exactVal);
         }
 
-        return matchesSearch && matchesStatus;
+        return matchesSearch && matchesStatus && matchesState;
       });
 
       renderTable(currentFilteredData);
@@ -731,7 +645,7 @@
 
         const item = document.createElement('div');
         item.className = 'detail-item';
-        item.innerHTML = `<div class="detail-label">key</div><divclass="detail-value">{val}</div>`;
+        item.innerHTML = `<div class="detail-label">${key}</div><div class="detail-value">${val}</div>`;
         modalContent.appendChild(item);
       });
 
@@ -764,4 +678,3 @@
   </script>
 </body>
 </html>
-
