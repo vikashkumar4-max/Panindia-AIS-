@@ -47,7 +47,7 @@
         }
 
         .dashboard-container {
-            max-width: 1450px;
+            max-width: 100%;
             margin: 0 auto;
         }
 
@@ -55,66 +55,62 @@
         .top-bar {
             background: #ffffff;
             border-radius: 12px;
-            padding: 18px 24px;
+            padding: 16px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             border-top: 4px solid #ff9933;
             border-bottom: 4px solid #138808;
-            position: relative;
         }
 
         .top-bar-left {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 14px;
         }
 
         .logo-container {
-            width: 50px;
-            height: 50px;
+            width: 44px;
+            height: 44px;
             background: #f8fafc;
             border: 2px solid #1e3a8a;
-            border-radius: 10px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
 
         .emblem-svg {
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
         }
 
         .top-bar-left h1 {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 800;
             color: var(--gov-navy);
-            letter-spacing: 0.5px;
             text-transform: uppercase;
         }
 
         .top-bar-left p {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-muted);
             font-weight: 600;
-            margin-top: 2px;
         }
 
         .sync-badge {
             background: #f0fdf4;
             color: #166534;
             border: 1px solid #bbf7d0;
-            padding: 8px 16px;
+            padding: 6px 14px;
             border-radius: 30px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .sync-dot {
@@ -132,28 +128,24 @@
             100% { opacity: 1; transform: scale(1); }
         }
 
-        /* Classic KPI Cards */
+        /* KPI Cards */
         .kpi-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 18px;
-            margin-bottom: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+            margin-bottom: 20px;
         }
 
         .kpi-card {
-            border-radius: 12px;
-            padding: 20px 22px;
+            border-radius: 10px;
+            padding: 16px;
             cursor: pointer;
             transition: all 0.25s ease;
             color: #ffffff;
-            box-shadow: 0 8px 15px -3px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
         }
 
-        .kpi-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 20px -3px rgba(0,0,0,0.2);
-        }
+        .kpi-card:hover { transform: translateY(-2px); }
 
         .kpi-card.active {
             outline: 3px solid #38bdf8;
@@ -161,16 +153,15 @@
         }
 
         .kpi-card h3 {
-            font-size: 11px;
+            font-size: 10px;
             text-transform: uppercase;
             color: rgba(255, 255, 255, 0.8);
             font-weight: 800;
-            letter-spacing: 0.8px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .kpi-card .value {
-            font-size: 32px;
+            font-size: 26px;
             font-weight: 800;
             line-height: 1;
         }
@@ -180,23 +171,23 @@
         .card-pending { background: var(--card-pending-bg); }
         .card-action { background: var(--card-action-bg); }
 
-        /* Filter Panel */
+        /* Main Content Frame */
         .main-content {
             background: #ffffff;
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
 
         .filter-container {
             background: #f1f5f9;
             border: 1px solid #e2e8f0;
-            padding: 16px;
-            border-radius: 10px;
-            margin-bottom: 24px;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
             display: flex;
-            gap: 14px;
+            gap: 12px;
             flex-wrap: wrap;
         }
 
@@ -205,57 +196,68 @@
             flex-direction: column;
             gap: 4px;
             flex: 1;
-            min-width: 200px;
+            min-width: 160px;
         }
 
         .filter-label {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 800;
             color: var(--text-muted);
             text-transform: uppercase;
         }
 
         .filter-container select, .filter-container input {
-            padding: 10px 14px;
+            padding: 8px 12px;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 6px;
             background-color: #ffffff;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             color: var(--text-dark);
             outline: none;
         }
 
-        /* Table Design */
+        /* 1 Screen Fixed Compact Table */
         .table-responsive {
-            overflow-x: auto;
+            width: 100%;
+            overflow-x: hidden; /* Removing scroll bar */
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 13px;
+            font-size: 12px;
+            table-layout: fixed; /* Column width control */
         }
 
         th {
             background-color: #0f172a;
             color: #f8fafc;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
-            padding: 14px 16px;
+            padding: 10px 8px;
             text-align: left;
-            white-space: nowrap;
+            word-wrap: break-word;
         }
 
+        /* Specific Widths for Each Column to fit perfectly */
+        th:nth-child(1) { width: 5%; }  /* SR. NO. */
+        th:nth-child(2) { width: 15%; } /* VEHICLE NUMBER */
+        th:nth-child(3) { width: 15%; } /* REMARK */
+        th:nth-child(4) { width: 12%; } /* DATE */
+        th:nth-child(5) { width: 23%; } /* OWNER NAME */
+        th:nth-child(6) { width: 15%; } /* MOBILE NUMBER */
+        th:nth-child(7) { width: 15%; } /* TIMESTAMP */
+
         td {
-            padding: 14px 16px;
+            padding: 10px 8px;
             border-bottom: 1px solid #e2e8f0;
             color: var(--text-dark);
             vertical-align: middle;
             font-weight: 500;
-            white-space: nowrap;
+            white-space: normal; /* Text wrap allowed */
+            word-break: break-word; /* Auto break long text */
         }
 
         tr:nth-child(even) { background-color: #f8fafc; }
@@ -266,17 +268,16 @@
             font-weight: 800;
             text-decoration: underline;
             cursor: pointer;
-            font-size: 13px;
-            letter-spacing: 0.5px;
+            font-size: 12px;
         }
 
-        /* Status Badges */
         .badge-remark {
             display: inline-block;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
             font-weight: 800;
+            text-align: center;
         }
 
         .badge-action {
@@ -299,12 +300,12 @@
 
         .loader {
             text-align: center;
-            padding: 40px;
+            padding: 30px;
             color: var(--text-muted);
             font-weight: 700;
         }
 
-        /* Modal Details */
+        /* Modal Popup Details */
         .modal {
             display: none;
             position: fixed;
@@ -318,44 +319,44 @@
 
         .modal-content {
             background: #ffffff;
-            border-radius: 12px;
-            padding: 28px;
-            max-width: 540px;
+            border-radius: 10px;
+            padding: 24px;
+            max-width: 500px;
             width: 90%;
             max-height: 85vh;
             overflow-y: auto;
             position: relative;
-            border-top: 6px solid var(--gov-blue);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            border-top: 5px solid var(--gov-blue);
+            box-shadow: 0 15px 20px rgba(0,0,0,0.2);
         }
 
         .close-btn {
             position: absolute;
-            top: 20px; right: 20px;
-            font-size: 22px;
+            top: 16px; right: 16px;
+            font-size: 20px;
             cursor: pointer;
             color: var(--text-muted);
             font-weight: bold;
         }
 
         .modal-title {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 800;
             color: var(--gov-navy);
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 8px;
+            padding-bottom: 6px;
         }
 
         .detail-item {
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
+            padding: 8px 0;
             border-bottom: 1px solid #f1f5f9;
         }
 
-        .detail-label { font-weight: 600; color: var(--text-muted); font-size: 12px; }
-        .detail-value { color: var(--text-dark); font-weight: 700; font-size: 13px; word-break: break-all; }
+        .detail-label { font-weight: 600; color: var(--text-muted); font-size: 11px; }
+        .detail-value { color: var(--text-dark); font-weight: 700; font-size: 12px; word-break: break-all; }
     </style>
 </head>
 <body>
@@ -401,7 +402,7 @@
             </div>
         </div>
 
-        <!-- Filters Section -->
+        <!-- Main Content -->
         <div class="main-content">
             <div class="filter-container">
                 <div class="filter-group">
@@ -461,12 +462,10 @@
         let activeCardFilter = 'ALL';
         let isFirstLoad = true;
 
-        // Smart Extractor Functions
         function getVehicleNumber(rowObj) {
             if (!rowObj) return 'N/A';
-            const vehicleRegEx = /\b[A-Z]{2}[0-9]{1,2}[A-Z]{0,3}[0-9]{4}\b/i; // Standard Indian Vehicle Number Pattern
+            const vehicleRegEx = /\b[A-Z]{2}[0-9]{1,2}[A-Z]{0,3}[0-9]{4}\b/i;
 
-            // 1. First priority: Check exact keys matching 'vehicle' or 'reg'
             for (let k of Object.keys(rowObj)) {
                 const kLower = k.toLowerCase();
                 if ((kLower.includes('vehicle') || kLower.includes('reg')) && !kLower.includes('type') && !kLower.includes('category')) {
@@ -475,7 +474,6 @@
                 }
             }
 
-            // 2. Fallback: Search all values for a valid Vehicle Number pattern
             for (let val of Object.values(rowObj)) {
                 const match = String(val).match(vehicleRegEx);
                 if (match) return match[0].toUpperCase();
