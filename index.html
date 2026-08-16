@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Vehicle Dashboard</title>
+    <style>
+        :root {
+            --bg-color: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --border-color: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .search-box, .filter-box {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .stat-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .stat-card .value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .vehicle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .vehicle-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border-left: 5px solid var(--accent-color);
+        }
+
+        .vehicle-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .vehicle-card .reg-no {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+        }
+
+        .vehicle-card .info {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .vehicle-card .remark-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: #eef2f7;
+            font-size: 12px;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px; right: 15px;
+            font-size: 20px;
+            cursor: pointer;
+            color: #888;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .detail-label { font-weight: bold; color: #555; }
+        .detail-value { color: #111; }
+
+        .loader {
+            text-align: center;
+            font-size: 18px;
+            padding: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Master Vehicle Dashboard</h1>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <h3>कुल वाहन (Total Vehicles)</h3>
+                <div class="value" id="totalCount">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>फ़िल्टर किए गए वाहन</h3>
+                <div class="value" id="filteredCount">0</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search Vehicle Number, Owner, etc..." oninput="filterData()">
+            </div>
+            <div class="filter-box">
+                <select id="remarkFilter" onchange="filterData()">
+                    <option value="ALL">All Remarks / Status</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="loader" class="loader">डेटा लोड हो रहा है, कृपया प्रतीक्षा करें...</div>
+        <div id="vehicleGrid" class="vehicle-grid"></div>
+    </div>
+
+    <!-- Details Modal -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Vehicle Details</h2>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 1. अपना Apps Script Web App URL यहाँ डालें
+        // ==========================================
+        const API_URL = "https://script.google.com/macros/s/AKfycbwpn2sSMdXpn6SmixqeCyHEcEA3wIBqvktPK1wA0Lf7ITljadaCanI7zsU6f8GrXrPuVA/exec"; 
+
+        let masterData = [];
+        let vehicleKey = '', remarkKey = '', ownerKey = '';
+
+        function loadData() {
+            // Using JSONP to bypass CORS issues on GitHub Pages
+            const script = document.createElement('script');
+            script.src = `${API_URL}?callback=handleData`;
+            document.body.appendChild(script);
+        }
+
+        function handleData(data) {
+            document.getElementById('loader').style.display = 'none';
+            if (data.error) {
+                alert("Error fetching data: " + data.error);
+                return;
+            }
+
+            masterData = data;
+            detectKeys();
+            populateRemarkFilter();
+            renderDashboard(masterData);
+        }
+
+        function detectKeys() {
+            if (masterData.length === 0) return;
+            const sample = masterData[0];
+            const keys = Object.keys(sample);
+
+            vehicleKey = keys.find(k => /veh|reg|number|no/i.test(k)) || keys[0];
+            remarkKey = keys.find(k => /remark|status|portal/i.test(k)) || keys[1] || keys[0];
+            ownerKey = keys.find(k => /owner|customer|party|transporter|name/i.test(k)) || keys[2] || keys[0];
+        }
+
+        function populateRemarkFilter() {
+            const remarks = new Set();
+            masterData.forEach(item => {
+                if (item[remarkKey]) remarks.add(item[remarkKey]);
+            });
+
+            const select = document.getElementById('remarkFilter');
+            let optionsHTML = '<option value="ALL">All Remarks / Status</option>';
+            remarks.forEach(rem => {
+                // FIXED: Template literal with correct syntax
+                optionsHTML += `<option value="EXACT:${rem}">${rem}</option>`;
+            });
+            select.innerHTML = optionsHTML;
+        }
+
+        function renderDashboard(data) {
+            document.getElementById('totalCount').innerText = masterData.length;
+            document.getElementById('filteredCount').innerText = data.length;
+
+            const grid = document.getElementById('vehicleGrid');
+            grid.innerHTML = '';
+
+            data.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'vehicle-card';
+                card.onclick = () => openVehicleDetail(item);
+
+                const regNo = item[vehicleKey] || 'N/A';
+                const owner = item[ownerKey] || 'N/A';
+                const remark = item[remarkKey] || 'N/A';
+
+                card.innerHTML = `
+                    <div class="reg-no">${regNo}</div>
+                    <div class="info"><strong>Owner:</strong> ${owner}</div>
+                    <div class="remark-badge">${remark}</div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterData() {
+            const searchValue = document.getElementById('searchInput').value.toLowerCase();
+            const filterValue = document.getElementById('remarkFilter').value;
+
+            const filtered = masterData.filter(item => {
+                const matchesSearch = Object.values(item).some(val => 
+                    String(val).toLowerCase().includes(searchValue)
+                );
+
+                let matchesFilter = true;
+                if (filterValue.startsWith('EXACT:')) {
+                    const targetRemark = filterValue.replace('EXACT:', '');
+                    matchesFilter = (item[remarkKey] === targetRemark);
+                }
+
+                return matchesSearch && matchesFilter;
+            });
+
+            renderDashboard(filtered);
+        }
+
+        function openVehicleDetail(item) {
+            document.getElementById('modalTitle').innerText = item[vehicleKey] || 'Vehicle Details';
+            const body = document.getElementById('modalBody');
+            body.innerHTML = '';
+
+            Object.entries(item).forEach(([key, val]) => {
+                const detailItem = document.createElement('div');
+                detailItem.className = 'detail-item';
+                // FIXED: Template literal with spaces and correct variable names
+                detailItem.innerHTML = `<div class="detail-label">${key}</div><div class="detail-value">${val || '-'}</div>`;
+                body.appendChild(detailItem);
+            });
+
+            document.getElementById('detailModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('detailModal').style.display = 'none';
+        }
+
+        // Initialize on page load
+        window.onload = loadData;
+    </script>
+</body>
+</html>
